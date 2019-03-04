@@ -36,7 +36,7 @@ class App extends Component {
   handleChangeLast(event)
   {
     var e=event.target.value;
-    if(e<6 && e>0)
+    if(e<7 && e>0)
       this.setState({
         last: e
       });
@@ -46,7 +46,7 @@ class App extends Component {
   handleChangeFirst(event)
   {
     var e=event.target.value;
-    if(e<6 && e>0)
+    if(e<7 && e>0)
     {
       var calculated=calculate({...this.state.graph},e);
       this.setState({

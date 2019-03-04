@@ -1,51 +1,51 @@
 export function calculate(graph,first)
 {
-  var w={};
-  var l=[];
+  var weights={};
+  var lists=[];
   for(var i in graph)
   {
-    w[i]=1000000;
+    weights[i]=1000000;
   }
-  w[first]=0;
-  l[first]=[first];
+  weights[first]=0;
+  lists[first]=[first];
 
-  f(graph,w,l,[first]);
-  return {weights:w, lists:l};
+  f(graph,weights,lists,[first]);
+  return {weights:weights, lists:lists};
 }
 
-function f(arr,w,l,m)
+function f(graph,weights,lists,init_nodes_array)
 {
-  if(!m[0])
+  if(!init_nodes_array[0])
   {
     return;
   }
-  var mm=[];
-  var b={};
+  var next_init_nodes_array=[];
+  var marked_nodes={};
 
-  for(var n in m)
+  for(var n in init_nodes_array)
   {
-    var k=m[n];
-    for(var i in arr[k])
+    var k=init_nodes_array[n];
+    for(var i in graph[k])
     {
-      var v=w[k]+arr[k][i];
-      if(v<w[i])
+      var v=weights[k]+graph[k][i];
+      if(v<weights[i])
       {
-        l[i]=[...l[k]];
-        l[i].push(i);
-        w[i]=v;
-        if(!b[i])
+        lists[i]=[...lists[k]];
+        lists[i].push(i);
+        weights[i]=v;
+        if(!marked_nodes[i])
         {
-          mm.push(i);
-          b[i]=true;
+          next_init_nodes_array.push(i);
+          marked_nodes[i]=true;
         }
       }
     }
   }
-  f(arr,w,l,mm);
+  //тут можно отсортировать next_init_nodes_array по возрастанию weights[next_init_nodes_array[i]]
+  f(graph,weights,lists,next_init_nodes_array);
 }
-//{m, mm} - массив нод на обработку
-//arr - матрица ребер
-//w - расстояние до ноды от стартовой
-//l - массив кратчайшего пути
-//b - проверка, добавили ли уже ноду в mm
-// function f(arr,w,l,m
+//{init_nodes_array, next_init_nodes_array} - массив нод на обработку
+//graph - матрица ребер
+//weights - расстояние до ноды от стартовой
+//lists - массив кратчайшего пути
+//marked_nodes - проверка, добавили ли уже ноду в next_init_nodes_array
